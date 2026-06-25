@@ -4,6 +4,212 @@
    Breakpoints: 1200px (laptop), 900px (tablet), 600px (phone)
    ========================================================= */
 
+/* =========================================================
+   GLOBAL INTERACTIVE ANIMATIONS — applies to every page
+   ========================================================= */
+@media (prefers-reduced-motion: no-preference) {
+
+  /* ---- LOGO HOVER (nav wordmark) ---- */
+  nav img[alt="Pari Jazz"] {
+    transition: filter 0.45s ease;
+    transform-origin: center;
+  }
+  nav a:hover img[alt="Pari Jazz"] {
+    animation: pjLogoBob 0.95s cubic-bezier(0.34, 1.56, 0.64, 1);
+    filter: drop-shadow(0 10px 22px rgba(25, 70, 189, 0.22));
+  }
+  @keyframes pjLogoBob {
+    0%   { transform: scale(1) rotate(0deg); }
+    25%  { transform: scale(1.06) rotate(-3deg); }
+    55%  { transform: scale(1.07) rotate(2.5deg); }
+    80%  { transform: scale(1.04) rotate(-1deg); }
+    100% { transform: scale(1) rotate(0deg); }
+  }
+
+  /* ---- PRIMARY CTAs (blue) — lift + glow ---- */
+  a[href][style*="rgb(25, 70, 189)"],
+  button[style*="rgb(25, 70, 189)"],
+  button[data-contact-trigger],
+  form button[type="submit"] {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease,
+                filter 0.25s ease,
+                background-color 0.25s ease !important;
+    will-change: transform, box-shadow;
+  }
+  a[href][style*="rgb(25, 70, 189)"]:hover,
+  button[style*="rgb(25, 70, 189)"]:hover,
+  button[data-contact-trigger]:hover,
+  form button[type="submit"]:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 20px 46px -12px rgba(25, 70, 189, 0.55),
+                0 6px 14px rgba(25, 70, 189, 0.28) !important;
+    filter: brightness(1.08);
+  }
+  a[href][style*="rgb(25, 70, 189)"]:active,
+  button[style*="rgb(25, 70, 189)"]:active,
+  button[data-contact-trigger]:active,
+  form button[type="submit"]:active {
+    transform: translateY(-1px) !important;
+    transition-duration: 80ms !important;
+  }
+
+  /* Sweeping shine on primary buttons (uses ::after; requires overflow hidden) */
+  button[data-contact-trigger],
+  a[href][style*="rgb(25, 70, 189)"],
+  button[style*="rgb(25, 70, 189)"],
+  form button[type="submit"] {
+    position: relative;
+    overflow: hidden;
+  }
+  button[data-contact-trigger]::after,
+  a[href][style*="rgb(25, 70, 189)"]::after,
+  button[style*="rgb(25, 70, 189)"]::after,
+  form button[type="submit"]::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -120%;
+    width: 60%; height: 100%;
+    background: linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.28) 50%, transparent 100%);
+    transform: skewX(-18deg);
+    pointer-events: none;
+    transition: left 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  button[data-contact-trigger]:hover::after,
+  a[href][style*="rgb(25, 70, 189)"]:hover::after,
+  button[style*="rgb(25, 70, 189)"]:hover::after,
+  form button[type="submit"]:hover::after {
+    left: 130%;
+  }
+
+  /* ---- SECONDARY / FORM SUBMIT — (covered above) ---- */
+
+  /* ---- SERVICE CARDS (Leistungen) — lift on hover ---- */
+  section#leistungen article {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.35s ease !important;
+  }
+  section#leistungen article:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 32px 70px -22px rgba(10, 22, 40, 0.22) !important;
+    border-color: #C9A96E !important;
+  }
+  section#leistungen article:hover h3 {
+    color: #1946BD;
+    transition: color 0.3s ease;
+  }
+
+  /* ---- VIDEO PLAY BUTTONS — bouncy scale + pulse ring ---- */
+  button[aria-label*="abspielen"],
+  button[aria-label*="Video"] {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                background 0.3s ease,
+                box-shadow 0.4s ease !important;
+  }
+  button[aria-label*="abspielen"]:hover,
+  button[aria-label*="Video"]:hover {
+    transform: translate(-50%, -50%) scale(1.12) !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 26px 60px rgba(0, 0, 0, 0.4) !important;
+  }
+  button[aria-label*="abspielen"]::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 999px;
+    border: 2px solid rgba(247, 244, 238, 0.6);
+    opacity: 0;
+    transform: scale(0.9);
+    pointer-events: none;
+  }
+  button[aria-label*="abspielen"]:hover::before {
+    animation: pjPlayPulse 1.6s ease-out infinite;
+  }
+  @keyframes pjPlayPulse {
+    0%   { transform: scale(0.92); opacity: 0.85; }
+    100% { transform: scale(1.45); opacity: 0; }
+  }
+
+  /* ---- NAV TEXT LINKS — animated underline ---- */
+  nav a[href][data-i18n^="nav."] {
+    position: relative;
+  }
+  nav a[href][data-i18n^="nav."]::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 2px;
+    background: currentColor;
+    transform-origin: right center;
+    transform: scaleX(0);
+    transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+    border-radius: 1px;
+    opacity: 0.85;
+  }
+  nav a[href][data-i18n^="nav."]:hover::after {
+    transform-origin: left center;
+    transform: scaleX(1);
+  }
+
+  /* ---- SOCIAL ICONS + FLAG BUTTONS — bouncy lift ---- */
+  nav a[aria-label="Instagram"],
+  nav a[aria-label="YouTube"],
+  nav a[aria-label="TikTok"],
+  nav button[data-lang-option] {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                filter 0.3s ease !important;
+  }
+  nav a[aria-label="Instagram"]:hover,
+  nav a[aria-label="YouTube"]:hover,
+  nav a[aria-label="TikTok"]:hover {
+    transform: translateY(-3px) scale(1.1) !important;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.18));
+  }
+  nav button[data-lang-option]:hover {
+    transform: translateY(-2px) scale(1.05) !important;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));
+  }
+
+  /* ---- "Mehr erfahren" links — arrow slide ---- */
+  a[href][style*="border-bottom: 1.5px solid"] {
+    transition: color 0.3s ease, transform 0.3s ease, letter-spacing 0.3s ease !important;
+    display: inline-block;
+  }
+  a[href][style*="border-bottom: 1.5px solid"]:hover {
+    color: #1946BD !important;
+    border-bottom-color: #1946BD !important;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---- FAQ details — chevron + smooth open ---- */
+  details > summary {
+    transition: color 0.25s ease, padding 0.25s ease;
+    cursor: pointer;
+  }
+  details > summary:hover {
+    color: #1946BD;
+  }
+
+  /* ---- GENERIC anchor lift for cards in grids ---- */
+  article[data-reveal] {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+/* ---- Reduced motion: kill everything decorative ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+
 /* ---------- Universal: kill rigid min-width ---------- */
 @media (max-width: 1280px) {
   main[data-screen-label] {
@@ -64,8 +270,8 @@
     gap: 14px !important;
     row-gap: 8px !important;
   }
-  nav a[href][style*="background: #1946BD"],
-  nav a[href][style*="background:#1946BD"] {
+  nav a[href][style*="rgb(25, 70, 189)"],
+  nav button[data-contact-trigger] {
     padding: 10px 16px !important;
     font-size: 12px !important;
   }
